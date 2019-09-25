@@ -23,4 +23,31 @@ def book_list(request):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+def book_detail(request, pk):
+    """
+    retrieve, update, or delete a book
+    """
+    try:
+        book = Book.objects.get(pk=pk)
+    except Book.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = BookSerializer(book)
+        return JsonResponse(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = BookSerializer(book, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        book.delete()
+        return HttpResponse(status=204)
+    
+
+
 
