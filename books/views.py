@@ -5,7 +5,7 @@ from books.models import Author, Book
 from books.serializers import AuthorSerializer, BookSerializer
 
 @api_view(['GET', 'POST'])
-def book_list(request):
+def book_list(request, format=None):
     """
     Lists all books, or add a new book
     """
@@ -22,7 +22,7 @@ def book_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def book_detail(request, pk):
+def book_detail(request, pk, format=None):
     """
     work with individual books
     """
@@ -45,3 +45,23 @@ def book_detail(request, pk):
     elif request.method == 'DELETE':
         book.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)    
+
+@api_view(['GET', 'POST'])
+def author_list(request, format=None):
+    """
+    Lists all authors, or add a new one
+    """
+    if request.method == 'GET':
+        authors = Author.objects.all()
+        serializer = AuthorSerializer(authors, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        serializer = AuthorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
