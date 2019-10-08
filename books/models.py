@@ -9,20 +9,23 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
-class Book(models.Model):
-    MEDIA_TYPE = (
-        ('ZINE', 'zine'),
-        ('BOOK', 'book'),
-        ('VIDEO', 'video'),
-        ('COMIC', 'comic'),
-    )
+class MediaType(models.Model):
+    media_type = models.CharField(max_length=50, default='unknown')
+    
+    class Meta:
+        ordering = ('media_type',)
 
+    def __str__(self):
+        return self.media_type
+
+
+class Book(models.Model):
     title = models.CharField(max_length=255, default='nothing')
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    media_type = models.CharField(max_length=1, choices=MEDIA_TYPE, default='None')
+    # media_type = models.ForeignKey(MediaType, on_delete=models.CASCADE)
 
 
     class Meta:
         ordering = ('title',)
     def __str__(self):
-        return f'Title: {self.title} \n Author: {self.author} \n Type: {self.media_type}' 
+        return f'Title: {self.title} The Writer: {self.author}' 
