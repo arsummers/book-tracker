@@ -1,1 +1,2 @@
 # book-tracker
+Goals: create a deployed django site that allows me to easily check to see which books I own. Ideally I will be able to sort by both title and author. RESTful API goals are go have a database I can then feed into a front end and have a search bar. If that fails, I want a resful API that is a big list of books and a big list of authors I can run a simple search against.
