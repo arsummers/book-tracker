@@ -9,6 +9,9 @@ verify_ssl = true
 django = "*"
 djangorestframework = "*"
 httpie = "*"
+gunicorn = "*"
+psycopg2 = "==2.7.5"
+django-heroku = "*"
 
 [requires]
 python_version = "3.7"
